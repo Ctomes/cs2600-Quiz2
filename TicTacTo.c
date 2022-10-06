@@ -1,11 +1,21 @@
 //Tic Tac To between 2 players or player vs computer
 //Tomes, Christopher
 //revision v1 10/05/2022
-
+#include <stdio.h>
 int main(){
-
+    int user_input;
     //prompt user for game version they would like to play
+    printf("========================\n");
+    printf("Welcome to TIC TAC TOE!\n");
+    printf("1 --- person vs. person \n");
+    printf("2 --- person vs. random computer \n");
+    printf("Enter your choice (1 or 2):\n");
+    scanf("%d", &user_input);
+    printf("%d\n", user_input);
+
     //read user input from terminal
+
+    
 
     //initialize ver of game
 
