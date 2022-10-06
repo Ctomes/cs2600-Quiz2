@@ -2,6 +2,20 @@
 //Tomes, Christopher
 //revision v1 10/05/2022
 #include <stdio.h>
+
+void printBoard(char *board)
+{
+    printf("\n------------\n");
+    for(int i = 0;i<3;i++)
+    {
+        for(int j = 0; j<3; j++)
+        {
+            printf("| %c |",board[i+j]);
+        }
+        printf("\n------------\n");
+    }
+
+}
 int main(){
     int user_input;
     //prompt user for game version they would like to play
@@ -10,16 +24,32 @@ int main(){
     printf("1 --- person vs. person \n");
     printf("2 --- person vs. random computer \n");
     printf("Enter your choice (1 or 2):\n");
-    scanf("%d", &user_input);
-    printf("%d\n", user_input);
+
 
     //read user input from terminal
+    int result = scanf("%d", &user_input);
+    while(1)
+    {//continues to loop until valid input is entered.
+        if(result != 0)
+        {
+            if(user_input == 1 || user_input == 2)
+            {
+                break;
+            }
+        }
+        printf("INVALID INPUT\n");
+        fflush(stdin);
+        result = scanf("%d", &user_input);
+    }
+
 
     
 
     //initialize ver of game
 
         //create 2D array rep of board state 3x3 chars with inital value ' '
+        char board[9] = "";
+        printBoard(board);
         //avail ops are '  ' , ' X ' , ' O  '
 
     //begin loop
