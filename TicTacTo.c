@@ -2,10 +2,32 @@
 //Tomes, Christopher
 //revision v1 10/05/2022
 #include <stdio.h>
-
+int remaining_pos = 9;
 char board[9] = "";
 int win_con[8] = {0};
 int winner = 0; //player 1 = 1, player = 2
+
+int tryMove(int x, int y, char in)
+{
+    int board_spot = ((y-1) + (3*(x-1)));
+
+    if(board[board_spot] == 0)
+    {
+        board[board_spot] = in;
+        remaining_pos--;
+        return 0;
+    }else
+    {
+        return 1;
+    }
+}
+
+int isThereAWinner()
+{
+    if(remaining_pos == 0){
+        printf("Result is a Tie!\n");
+        return 0;
+    }
 /*
 win condition arrays:
 --------
@@ -23,147 +45,28 @@ Diagnal
 --------
 //X++ O-- winner occurs if any become 3/-3
 */
-
-int tryMove(int x, int y, char in)
-{
-    int board_spot = ((y-1) + (3*(x-1)));
-
-    if(board[board_spot] == 0)
+int arr[] = {0,1,2
+            ,3,4,5
+            ,6,7,8
+            ,0,3,6
+            ,1,4,7
+            ,2,5,8
+            ,0,4,8
+            ,2,4,6};
+//0:
+for(int i = 0; i < 8; i++){
+    if(board[arr[3*i]]+board[arr[3*i+1]]+board[arr[3*i+2]] == (88*3))
     {
-        board[board_spot] = in;
-
-        switch (board_spot)
-        {// ++/-- win conditions. When we reach 3 OR -3 we terminate.
-        case 0: //0,3,6
-            if(in == 'X')
-            {
-                ++win_con[0];
-                ++win_con[3];
-                ++win_con[6];
-            }else
-            {
-                --win_con[0]; 
-                --win_con[3];
-                --win_con[6];
-            }
-            break;
-        case 1: //0,4
-            if(in == 'X')
-            {
-                ++win_con[0];
-                ++win_con[4];
-            }else{
-                --win_con[0]; 
-                --win_con[4];
-            }
-            break;
-        case 2://0,5,7
-            if(in == 'X')
-            {
-                ++win_con[0];
-                ++win_con[5];
-                ++win_con[7];
-            }else{
-                --win_con[0];
-                --win_con[5];
-                --win_con[7];
-            }
-            break;
-        case 3://1,3
-            if(in == 'X')
-            {
-                ++win_con[1];
-                ++win_con[3]; 
-            }else{
-                --win_con[1];
-                --win_con[3];
-            }
-            break;
-        case 4: //1,4,6,7
-            if(in == 'X')
-            {
-                ++win_con[1];
-                ++win_con[4];
-                ++win_con[6];
-                ++win_con[7];
-            }else{
-                --win_con[1];
-                --win_con[4];
-                --win_con[6];
-                --win_con[7];
-            }
-            break;
-        case 5://1,5
-            if(in == 'X')
-            {
-                ++win_con[1];
-                ++win_con[5]; 
-            }else{
-                --win_con[1];
-                --win_con[5];
-            }
-            break;
-        case 6://2,3,7
-            if(in == 'X')
-            {
-                ++win_con[2];
-                ++win_con[3];
-                ++win_con[7];
-            }else{
-                --win_con[2];
-                --win_con[3];
-                --win_con[7];
-            }
-            break;
-        case 7://2,4
-            if(in == 'X')
-            {
-                ++win_con[2];
-                ++win_con[4]; 
-            }else{
-                --win_con[2];
-                --win_con[4];
-            }
-            break;
-        case 8://2,5,6
-            if(in == 'X')
-            {
-                ++win_con[2];
-                ++win_con[5];
-                ++win_con[6];
-            }else{
-                --win_con[2];
-                --win_con[5];
-                --win_con[6];
-            }
-            break;
-                      
-        default:
-            break;
-        }
-
+        printf("PLAYER 1 IS THE WINNER\n");
         return 0;
-    }else
+    }else if(board[arr[3*i]]+board[arr[3*i+1]]+board[arr[3*i+2]] == (79*3))
     {
-        return 1;
+        printf("PLAYER 2 IS THE WINNER\n");
+        return 0;
     }
 }
-
-int isThereAWinner()
-{
-    for(int i = 0;i<8;++i)
-    {
-        if(win_con[i]==3)
-        {
-            printf("PLAYER 1 IS THE WINNER\n");
-            return 0;
-        }
-        if(win_con[i]==-3){
-            printf("PLAYER 2 IS THE WINNER\n");
-            return 0;
-        }
-        }
     return 1;
+
 }
 void printBoard()
 {
@@ -253,11 +156,15 @@ int main(){
             {
                printf("Invalid Input\n");
                fflush(stdin);
-               break;
+               printf("Player1: make your move\n");
             }
         }
         printBoard(); 
 
+        if(isThereAWinner() == 0)
+        {
+            break;
+        }
         
         //store a X in that location in 2D array
         //print BOARD
@@ -271,6 +178,7 @@ int main(){
             printf("Player2: make your move\n");
             while(scanf("%d %d", &x, &y)!= 0)
             {
+                
                 if((x < 4 && x > 0)&& (y < 4 && y > 0))
                 {
                     if(tryMove(x,y, 'O') == 0){
@@ -279,17 +187,16 @@ int main(){
                     printf("Spot is taken\n");
                 }
                 printBoard(); 
-                
-            fflush(stdin);
-            printf("IN\n");
-            }else
-            {
-               printf("Invalid Input\n");
-               fflush(stdin);
-               break;
+                fflush(stdin);
+                printf("IN\n");
+                }else
+                {
+                printf("Invalid Input\n");
+                fflush(stdin);
+                printf("Player2: make your move\n");
+                }
             }
-        }
-        printBoard(); 
+            printBoard(); 
         }
         //if pve-mode:
             //generate a randomvalue mod 0-9.
