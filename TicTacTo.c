@@ -2,6 +2,8 @@
 //Tomes, Christopher
 //revision v1 10/05/2022
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 //global vals:
 int remaining_pos = 9;
@@ -85,6 +87,10 @@ void printBoard()
 
 int main(){
     int user_input;
+    //time_t t;
+    srand(time(NULL));
+
+    int r = rand(); 
     //prompt user for game version they would like to play
     printf("========================\n");
     printf("Welcome to TIC TAC TOE!\n");
@@ -147,9 +153,7 @@ int main(){
                     printf("Spot is taken\n");
                 }
                 printBoard(); 
-                
-            fflush(stdin);
-            printf("IN\n");
+                fflush(stdin);
             }else
             {
                printf("Invalid Input\n");
@@ -195,13 +199,25 @@ int main(){
                 }
             }
             printBoard(); 
+        }else{
+            printf("AI:\n");
+            x = rand()%3 + 1;
+            y = rand()%3 + 1;
+                
+            while(!(tryMove(x,y, 'O') == 0))
+                {
+                x = rand()%2 + 1;
+                y = rand()%2 + 1;
+                }
+            }
+    
+            printBoard(); 
         }
         //if pve-mode:
             //generate a randomvalue mod 0-9.
             //store a O in that location in 2D array if DNE else regenerate.
             //print BOARD
 
-    }
     //end loop
     
     return 0;
