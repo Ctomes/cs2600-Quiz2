@@ -71,15 +71,17 @@ for(int i = 0; i < 8; i++)
 void printBoard()
 {
     printf("Current status is:\n");
-    printf("+----------+\n");
+    printf("+-----------+\n");
     int k = 0;
     for(int i = 0;i<3;++i)
     {
         for(int j = 0; j<3; ++j)
         {
-            printf("| %c |",board[k++]);
+            char temp = board[k++];
+            if(temp == 0){temp = ' ';}
+            printf("| %c ",temp);
         }
-        printf("\n+----------+\n");
+        printf("|\n+-----------+\n");
     }
 
 }
