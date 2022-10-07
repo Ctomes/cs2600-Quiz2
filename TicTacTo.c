@@ -143,25 +143,30 @@ int main(){
 
         //prompt user for location (x,y)
         printf("Player1: make your move\n");
-        while(scanf("%d %d", &x, &y)!= 0)
+        while(scanf("%d %d", &x, &y) || 1)
         {
             if((x < 4 && x > 0)&& (y < 4 && y > 0))
             {
                 if(tryMove(x,y, 'X') == 0){
+                    printBoard();
                     break;
                 }else{
-                    printf("Spot is taken\n");
+                    printf("Spot is taken!\n");
+                    printBoard();
+                    printf("Player1: make your move\n"); 
                 }
-                printBoard(); 
-                fflush(stdin);
             }else
             {
                printf("Invalid Input\n");
-               fflush(stdin);
+               printBoard(); 
                printf("Player1: make your move\n");
             }
+            fflush(stdin);
         }
-        printBoard(); 
+        //reset everything.
+        fflush(stdin);
+        x=0;
+        y=0;
 
         if(isThereAWinner() == 0)
         {
@@ -178,33 +183,41 @@ int main(){
         if(user_input == 1)
         {
             printf("Player2: make your move\n");
-            while(scanf("%d %d", &x, &y)!= 0)
+            while((scanf("%d %d", &x, &y)!= 0) || 1)
             {
-                
-                if((x < 4 && x > 0)&& (y < 4 && y > 0))
+                if((x < 4 && x > 0)&& (y < 4 && y > 0))//ensure user input is within board.
                 {
-                    if(tryMove(x,y, 'O') == 0){
+                    if(tryMove(x,y, 'O') == 0)
+                    {//check if move is available
+                        printBoard();
                         break;
-                }else{
-                    printf("Spot is taken\n");
-                }
-                printBoard(); 
-                fflush(stdin);
-                printf("IN\n");
+                    }else
+                    {
+                        printf("Spot is taken!\n");
+                        printBoard();
+                        printf("Player2: make your move\n"); 
+                    }
                 }else
                 {
-                printf("Invalid Input\n");
-                fflush(stdin);
-                printf("Player2: make your move\n");
+
+                    printf("Invalid Input!\n");
+                    printBoard(); 
+                    printf("Player2: make your move\n");
                 }
+                fflush(stdin);
+                //printBoard(); 
             }
-            printBoard(); 
-        }else{
-            printf("AI:\n");
+            fflush(stdin);
+
+        }
+        else{ //if pvAI-mode:
+            printf("AI: Player 2\n");
+
+            //generate a  2 randomvalues: 1,2,3.
             x = rand()%3 + 1;
             y = rand()%3 + 1;
                 
-            while(!(tryMove(x,y, 'O') == 0))
+            while(!(tryMove(x,y, 'O') == 0))//keep looping until a valid move is performed.
                 {
                 x = rand()%2 + 1;
                 y = rand()%2 + 1;
@@ -213,10 +226,6 @@ int main(){
     
             printBoard(); 
         }
-        //if pve-mode:
-            //generate a randomvalue mod 0-9.
-            //store a O in that location in 2D array if DNE else regenerate.
-            //print BOARD
 
     //end loop
     
